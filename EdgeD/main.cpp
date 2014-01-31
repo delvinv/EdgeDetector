@@ -37,12 +37,14 @@ int main(int argc, char** argv)
     createTrackbar( "Canny_high"    ,"controller" ,&high    ,255 ,on_Canny_high_change      ,&image);
 
     while(1)
+    {
         k = waitKey();
-        if (k==32){
-            return -1;
+        if (k==32){    // 32 is the code for 'space bar'
+            pause;     // the function for pausing the video
         }
-        else if (k==27){
-            continue;
+        else {
+            return -1; // exits on anything that isnt pausing
         }
+    }
         //nothing
 }
