@@ -21,7 +21,17 @@ int main()
 {
     namedWindow("Window",CV_WINDOW_AUTOSIZE);
 
-    createTrackbar( "Detect_thresh"    ,"controller" ,&thresh   ,100 ,on_Detect_thresh_change   ,&image);
-    createTrackbar( "Canny_low"      ,"controller" ,&low ,255 ,on_Canny_low_change  ,&image);
-    createTrackbar( "Canny_high"  ,"controller" ,&high ,255 ,on_Canny_high_change    ,&image);
+    createTrackbar( "Detect_thresh" ,"controller" ,&thresh  ,100 ,on_Detect_thresh_change   ,&image);
+    createTrackbar( "Canny_low"     ,"controller" ,&low     ,255 ,on_Canny_low_change       ,&image);
+    createTrackbar( "Canny_high"    ,"controller" ,&high    ,255 ,on_Canny_high_change      ,&image);
+
+    while(1)
+        k = waitKey();
+        if k==32:    // space key to stop
+            break
+        elif k==27:
+            continue
+        else:
+            print k
+    end;
 }
