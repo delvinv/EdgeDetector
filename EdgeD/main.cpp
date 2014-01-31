@@ -17,9 +17,21 @@ void on_Canny_high_change(int x,void *p)
 
 }
 
-int main()
+int main(int argc, char** argv)
 {
+    if (argc <2){
+        cout << argc <<endl;
+        cout << "ERROR: Video argument missing." <<endl;
+        return -1;
+    }
+    VideoCapture cap(argv[1]); // open the video file for reading
+    if ( !cap.isOpened() )  // if not success, exit program
+    {
+        cout << "Cannot open the video file" << endl;
+        return -1;
+    }
     namedWindow("Window",CV_WINDOW_AUTOSIZE);
+<<<<<<< HEAD
 
     createTrackbar( "Detect_thresh" ,"controller" ,&thresh  ,100 ,on_Detect_thresh_change   ,&image);
     createTrackbar( "Canny_low"     ,"controller" ,&low     ,255 ,on_Canny_low_change       ,&image);
@@ -34,4 +46,9 @@ int main()
         else:
             print k
     end;
+=======
+    createTrackbar( "Detect_thresh"    ,"controller" ,&thresh   ,100 ,on_Detect_thresh_change   ,&image);
+    createTrackbar( "Canny_low"      ,"controller" ,&low ,255 ,on_Canny_low_change  ,&image);
+    createTrackbar( "Canny_high"  ,"controller" ,&high ,255 ,on_Canny_high_change    ,&image);
+>>>>>>> 7de83806de56de5fb695d127302d83883b578ae9
 }
