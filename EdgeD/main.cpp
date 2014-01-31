@@ -24,7 +24,12 @@ int main(int argc, char** argv)
         cout << "ERROR: Video argument missing." <<endl;
         return -1;
     }
-
+    VideoCapture cap(argv[1]); // open the video file for reading
+    if ( !cap.isOpened() )  // if not success, exit program
+    {
+        cout << "Cannot open the video file" << endl;
+        return -1;
+    }
     namedWindow("Window",CV_WINDOW_AUTOSIZE);
     createTrackbar( "Detect_thresh"    ,"controller" ,&thresh   ,100 ,on_Detect_thresh_change   ,&image);
     createTrackbar( "Canny_low"      ,"controller" ,&low ,255 ,on_Canny_low_change  ,&image);
