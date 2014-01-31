@@ -46,5 +46,4 @@ int main(int argc, char** argv)
             return -1; // exits on anything that isnt pausing
         }
     }
-        //nothing
 }
