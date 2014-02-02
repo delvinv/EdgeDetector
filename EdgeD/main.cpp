@@ -32,6 +32,10 @@ int main(int argc, char** argv)
     }
     namedWindow("Window",CV_WINDOW_AUTOSIZE);
 
+    thresh = 0;
+    low = 0;
+    high = 0;
+
     createTrackbar( "Detect_thresh" ,"controller" ,&thresh  ,100 ,on_Detect_thresh_change   ,&image);
     createTrackbar( "Canny_low"     ,"controller" ,&low     ,255 ,on_Canny_low_change       ,&image);
     createTrackbar( "Canny_high"    ,"controller" ,&high    ,255 ,on_Canny_high_change      ,&image);
@@ -40,7 +44,7 @@ int main(int argc, char** argv)
     {
         k = waitKey();
         if (k==32){    // 32 is the code for 'space bar'
-            pause;     // the function for pausing the video
+            pause();     // the function for pausing the video
         }
         else {
             return -1; // exits on anything that isnt pausing
