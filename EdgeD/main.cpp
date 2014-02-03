@@ -44,15 +44,35 @@ int main(int argc, char** argv)
     createTrackbar( "Canny_low"     ,"Window" ,&low     ,255 ,on_Canny_low_change       );
     createTrackbar( "Canny_high"    ,"Window" ,&high    ,255 ,on_Canny_high_change      );
 
+//    while(1)
+//    {
+//        if (waitKey()==32){    // 32 is the code for 'space bar'
+//            //pause();     // the function for pausing the video
+//            cout << "pause" <<endl;
+//        }
+//        else {
+//            return -1; // exits on anything that isnt pausing
+//        }
+//    }
+
+    Mat frame;
+
     while(1)
     {
-        int k = waitKey();
-        if (k==32){    // 32 is the code for 'space bar'
-            //pause();     // the function for pausing the video
-            cout << "pause" <<endl;
+        bool bSuccess = cap.read(frame); // read a new frame from video
+
+        if (!bSuccess) //if not success, break loop
+        {
+            cout << "Cannot read the frame from video file" << endl;
+            break;
         }
-        else {
-            return -1; // exits on anything that isnt pausing
+
+        imshow("MyVideo", frame); //show the frame in "MyVideo" window
+
+        if(waitKey(30) == 27) //wait for 'esc' key press for 30 ms. If 'esc' key is pressed, break loop
+        {
+            cout << "esc key is pressed by user" << endl;
+            break;
         }
     }
 }
