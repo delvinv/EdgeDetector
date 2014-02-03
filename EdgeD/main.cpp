@@ -21,13 +21,17 @@ void on_Canny_high_change(int x,void *p)
 
 int main(int argc, char** argv)
 {
-    if (argc <2){
-        cout << argc <<endl;
-        cout << "ERROR: Video argument missing." <<endl;
+    char* elem = 0;
+    if (argc >1){
+        elem = argv[1];
+    } else {
+        elem = "0";
     }
-    VideoCapture cap(argv[1]); // open the video file for reading
+
+    VideoCapture cap(elem); // open the video file for reading
     if ( !cap.isOpened() )  // if not success, exit program
     {
+        VideoCapture cap(0);
         cout << "Cannot open the video file" << endl;
         return -1;
     }
