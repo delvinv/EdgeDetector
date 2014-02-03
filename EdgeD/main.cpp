@@ -55,10 +55,20 @@ int main(int argc, char** argv)
 
         imshow("Window", frame); //show the frame in "MyVideo" window
 
-        if(waitKey(30) == 32) //wait for 'esc' key press for 30 ms. If 'esc' key is pressed, break loop
-        {
-            cout << "Space key is pressed by user" << endl;
-            break;
+        int k = waitKey(30);
+        if(k == 32) { //wait for 'space' key press for 30 ms. Then pauses
+            while(1) {
+                k = waitKey();
+                if (k == 32) {
+                    break;
+                }
+                else if(k != -1) { // exits on any other key
+                    return -1;
+                }
+            }
+        }
+        else if(k != -1) { // exits on any other key
+            return -1;
         }
     }
     waitKey(0);
