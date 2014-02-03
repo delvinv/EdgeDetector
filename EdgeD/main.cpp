@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 #include <opencv/cv.h>
 #include <opencv/highgui.h>
 
@@ -7,18 +8,15 @@ using namespace cv;
 
 void on_Detect_thresh_change(int x,void *p)
 {
-    x; // trackbar value
-    p; // pointer to a resorce
+
 }
 void on_Canny_low_change(int x,void *p)
 {
-    x; // trackbar value
-    p; // pointer to a resorce
+
 }
 void on_Canny_high_change(int x,void *p)
 {
-    x; // trackbar value
-    p; // pointer to a resorce
+
 }
 
 int main(int argc, char** argv)
@@ -43,18 +41,6 @@ int main(int argc, char** argv)
     createTrackbar( "Detect_thresh" ,"Window" ,&thresh  ,100 ,on_Detect_thresh_change   );
     createTrackbar( "Canny_low"     ,"Window" ,&low     ,255 ,on_Canny_low_change       );
     createTrackbar( "Canny_high"    ,"Window" ,&high    ,255 ,on_Canny_high_change      );
-
-//    while(1)
-//    {
-//        if (waitKey()==32){    // 32 is the code for 'space bar'
-//            //pause();     // the function for pausing the video
-//            cout << "pause" <<endl;
-//        }
-//        else {
-//            return -1; // exits on anything that isnt pausing
-//        }
-//    }
-
     Mat frame;
 
     while(1)
@@ -67,12 +53,13 @@ int main(int argc, char** argv)
             break;
         }
 
-        imshow("MyVideo", frame); //show the frame in "MyVideo" window
+        imshow("Window", frame); //show the frame in "MyVideo" window
 
-        if(waitKey(30) == 27) //wait for 'esc' key press for 30 ms. If 'esc' key is pressed, break loop
+        if(waitKey(30) == 32) //wait for 'esc' key press for 30 ms. If 'esc' key is pressed, break loop
         {
-            cout << "esc key is pressed by user" << endl;
+            cout << "Space key is pressed by user" << endl;
             break;
         }
     }
+    waitKey(0);
 }
