@@ -6,17 +6,21 @@
 using namespace std;
 using namespace cv;
 
+int thresh = 0;
+int LowThreshold = 90;
+int HighThreshold = 161;
+
 void on_Detect_thresh_change(int x,void *p)
 {
 
 }
 void on_Canny_low_change(int x,void *p)
 {
-
+    LowThreshold = x;
 }
 void on_Canny_high_change(int x,void *p)
 {
-
+    HighThreshold = x;
 }
 
 int main(int argc, char** argv)
@@ -39,13 +43,12 @@ int main(int argc, char** argv)
 
     namedWindow("Window",CV_WINDOW_AUTOSIZE);
 
-    int thresh = 0;
-    int low = 0;
-    int high = 0;
 
-    createTrackbar( "Detect_thresh" ,"Window" ,&thresh  ,100 ,on_Detect_thresh_change   );
-    createTrackbar( "Canny_low"     ,"Window" ,&low     ,255 ,on_Canny_low_change       );
-    createTrackbar( "Canny_high"    ,"Window" ,&high    ,255 ,on_Canny_high_change      );
+
+    createTrackbar( "Detect_thresh" ,"Window" ,&thresh           ,100 ,on_Detect_thresh_change   );
+    createTrackbar( "Canny_low"     ,"Window" ,&LowThreshold     ,255 ,on_Canny_low_change       );
+    createTrackbar( "Canny_high"    ,"Window" ,&HighThreshold    ,255 ,on_Canny_high_change      );
+
     Mat frame;
 
     while(1) {
@@ -56,7 +59,18 @@ int main(int argc, char** argv)
             break;
         }
 
-        imshow("Window", frame); //show the frame in "MyVideo" window
+        // Reduce noise with a kernel 3x3
+        blur( frame, frame, Size(3,3) );
+
+        // Canny detector
+        Canny( frame, frame, LowThreshold, HighThreshold, 3 );
+
+        // Using Canny's output as a mask, we display our result
+        // dst = Scalar::all(0);
+
+        imshow("Window", frame );
+
+        // imshow("Window", frame); //show the frame in "MyVideo" window
 
 
 
