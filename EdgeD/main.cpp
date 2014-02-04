@@ -28,12 +28,13 @@ int main(int argc, char** argv)
         elem = "0";
     }
 
+    //"C:\Users\User\Documents\GitHub\EdgeDetector\EdgeD\test_sphere_1.mp4"
+
     VideoCapture cap(elem); // open the video file for reading
-    if ( !cap.isOpened() )  // if not success, exit program
+    if ( !cap.isOpened() )  // if not success
     {
-        VideoCapture cap(0);
-        cout << "Cannot open the video file" << endl;
-        return -1;
+        cout << "runnning from web cam" << endl;
+        VideoCapture cap(1);
     }
 
     namedWindow("Window",CV_WINDOW_AUTOSIZE);
@@ -47,17 +48,17 @@ int main(int argc, char** argv)
     createTrackbar( "Canny_high"    ,"Window" ,&high    ,255 ,on_Canny_high_change      );
     Mat frame;
 
-    while(1)
-    {
+    while(1) {
         bool bSuccess = cap.read(frame); // read a new frame from video
 
-        if (!bSuccess) //if not success, break loop
-        {
+        if (!bSuccess) { //if not success, break loop
             cout << "Cannot read the frame from video file" << endl;
             break;
         }
 
         imshow("Window", frame); //show the frame in "MyVideo" window
+
+
 
         int k = waitKey(30);
         if(k == 32) { //wait for 'space' key press for 30 ms. Then pauses
