@@ -9,7 +9,7 @@ using namespace cv;
 int Threshold = 0;
 double ThresholdD = 0.0;
 int LowThreshold = 60;
-int HighThreshold = 200;
+int HighThreshold = 134;
 
 void on_Detect_thresh_change(int x,void *p)
 {
