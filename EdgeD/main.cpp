@@ -8,8 +8,8 @@ using namespace cv;
 
 int Threshold = 0;
 double ThresholdD = 0.0;
-int LowThreshold = 60;
-int HighThreshold = 134;
+int LowThreshold = 80; // 130 for web cam
+int HighThreshold = 127; // 165 for web cam
 
 void on_Detect_thresh_change(int x,void *p)
 {
@@ -27,21 +27,10 @@ void on_Canny_high_change(int x,void *p)
 
 int main(int argc, char** argv)
 {
-    char* elem = 0;
-    if (argc >1){
-        elem = argv[1];
-    } else {
-        elem = "0";
-    }
-
     //"C:\Users\User\Documents\GitHub\EdgeDetector\EdgeD\test_sphere_1.mp4"
 
-    VideoCapture cap(elem); // open the video file for reading
-    if ( !cap.isOpened() )  // if not success
-    {
-        cout << "runnning from web cam" << endl;
-        VideoCapture cap(1);
-    }
+    VideoCapture cap(argv[1]); // open the video file for reading
+    VideoCapture webcam(1); // open web cam
 
     namedWindow("Window",CV_WINDOW_AUTOSIZE);
     createTrackbar( "Detect_thresh" ,"Window" ,&Threshold        ,100 ,on_Detect_thresh_change   );
@@ -50,13 +39,26 @@ int main(int argc, char** argv)
 
     Mat frame;
     Mat gray;
+    bool bSuccess = true;
+    bSuccess = cap.read(frame);
+    if (!bSuccess) { // setting the default for the web cam
+        LowThreshold = 140;
+        HighThreshold = 165;
+    }
+    double noFrames = cap.get(7);
+    double currentFrame = cap.get(1);
 
     while(1) {
-        bool bSuccess = cap.read(frame); // read a new frame from video
-
-        if (!bSuccess) { //if not success, break loop
-            cout << "Cannot read the frame from video file" << endl;
-            break;
+        if (bSuccess) { // read a new frame from video
+            cap.read(frame);
+            currentFrame = cap.get(1);
+            if (currentFrame>=(noFrames-2.0)){
+                cap.set(2,0); // replaying the video
+                cout << "replay the video" << endl;
+            }
+        }
+        else { // read a new frame from webcam
+            webcam.read(frame);
         }
 
                 // === First the circle detection ===
@@ -66,7 +68,7 @@ int main(int argc, char** argv)
         blur( gray, gray, Size(3,3) );
         vector<Vec3f> circles;
         HoughCircles(gray, circles, CV_HOUGH_GRADIENT,
-                     2, 100, HighThreshold, LowThreshold, 30, 3000 );
+                     2, 100, HighThreshold, LowThreshold, 10, 3000 );
 
                 // === Then the canny edge ditection ===
 
@@ -105,5 +107,4 @@ int main(int argc, char** argv)
             return -1;
         }
     }
-    waitKey(0);
 }
